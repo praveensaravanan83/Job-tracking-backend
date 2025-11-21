@@ -31,12 +31,16 @@ app.get("/", (req, res) => {
   res.send("Backend is running");
 });
 
+// MongoDB Connection (Render-friendly)
 mongoose
-  .connect("mongodb://127.0.0.1:27017/jobtracker")
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("MongoDB connected");
-    app.listen(5000, () => console.log("Server running on port 5000"));
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
   .catch((err) => console.log(err));
 
-const port = process.env.port || 5000;
+const PORT = process.env.PORT || 5000;
